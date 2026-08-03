@@ -76,34 +76,32 @@
 <div class="masthead">
   <div class="masthead-top">
     <div>
-      <div class="brand-eyebrow">SEO Performance · Live Dashboard · Confidential</div>
+      <div class="brand-eyebrow">SEO Performance · Live Dashboard </div>
       <h1 class="brand-title display">Ranking Report Dashboard</h1>
       <div class="brand-sub">Exceptional Touch Cleaning Inc. — Barrie &amp; Simcoe County Commercial Cleaning</div>
     </div>
     <div class="prepared-by">
       <img src="https://www.xpertzesolutions.com/wp-content/uploads/brizy/imgs/Xpertz-eSolutions-Logo-Wh-220x53x0x3x220x47x1755648802.png" alt="Xpertz eSolutions">
-      <div class="pb-text">Prepared By: <b>Xpertz eSolutions</b></div>
+      <div class="pb-text">Prepared By: <b><span style="color:#C9D6DD; font-size:12px;">Xpertz eSolutions</span></b></div>
       <div class="meta-box">
-        <div><b>Owner:</b> Domenic — 647-379-7492</div>
-        <div class="stars">★★★★★ <span style="color:#C9D6DD; font-size:12px;">Barrie's Highest-Rated</span></div>
+        
         <div id="lastUpdated">Loading data…</div>
       </div>
     </div>
   </div>
   <div class="refresh-bar">
-    <button class="btn" onclick="loadData()">↻ Refresh from Google Sheet</button>
-    <span class="status" id="statusMsg">Connecting to spreadsheet…</span>
+    <button class="btn" onclick="loadData()">↻ Refresh Report</button>
+    <span class="status" id="statusMsg">Connecting to server…</span>
   </div>
 </div>
 
 <div class="wrap" id="app">
-  <div class="loading">Pulling the latest data from your Google Sheet…</div>
+  <div class="loading">Pulling the latest data from server…</div>
 </div>
 
 <footer>
-  <div class="owner-line">Exceptional Touch Cleaning Inc. — Domenic, Owner</div>
-  Confidential — Internal SEO Reporting · 647-379-7492 · exceptionaltouchcleaning.com<br>
-  This dashboard reads live from your Google Sheet every time it's opened or refreshed. If it ever shows an error, re-check the sheet's sharing setting is "Anyone with the link — Viewer."
+  <div class="owner-line">Exceptional Touch Cleaning Inc. </div>
+  Internal SEO Reporting · exceptionaltouchcleaning.com<br>
 </footer>
 
 <script>
@@ -159,12 +157,12 @@ async function loadData(){
     const text = await res.text();
     const rows = parseCSV(text);
     render(rows);
-    document.getElementById('statusMsg').textContent = 'Live — connected to Google Sheet';
+    document.getElementById('statusMsg').textContent = 'Live Ranking Data';
     document.getElementById('lastUpdated').textContent = 'Refreshed: ' + new Date().toLocaleString();
   }catch(err){
-    document.getElementById('statusMsg').textContent = 'Could not reach the sheet — check it is shared as "Anyone with the link: Viewer".';
+    document.getElementById('statusMsg').textContent = 'Could not reach the server';
     document.getElementById('statusMsg').className = 'status err';
-    document.getElementById('app').innerHTML = `<div class="loading">⚠ Couldn't load live data.<br><span style="font-size:12px;">${err.message}. Make sure the Google Sheet's sharing is set to "Anyone with the link — Viewer", then hit Refresh.</span></div>`;
+    document.getElementById('app').innerHTML = `<div class="loading">⚠ Couldn't load live data.<br><span style="font-size:12px;">${err.message}. Check server settings, then hit Refresh.</span></div>`;
   }
 }
 
