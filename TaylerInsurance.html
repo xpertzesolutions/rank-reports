@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tayler Insurance & Estate Planning — Ranking Report | Xpertz eSolutions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root{
+    --navy:#180a05; --navy-light:#180a05; --teal:#5B3DF5; --gold:#f06735;
+    --up:#2E9E5B; --down:#D14B3D; --flat:#8C97A0;
+    --bg:#F5F6F4; --card:#FFFFFF; --ink:#152331; --sub:#5B6B76; --line:#E4E8E7;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); font-family:Arial,Helvetica,sans-serif; color:var(--ink);}
+  .display{font-family:'Barlow Condensed',Arial,sans-serif; font-weight:700;}
+  .masthead{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%); color:#fff; padding:32px 48px 26px; position:relative; overflow:hidden;}
+  .masthead::after{content:""; position:absolute; right:-60px; top:-60px; width:260px; height:260px; border-radius:50%; background:radial-gradient(circle, rgba(217,165,33,0.18) 0%, rgba(217,165,33,0) 70%);}
+  .masthead-top{display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;}
+  .brand-eyebrow{text-transform:uppercase; font-size:11px; letter-spacing:2.5px; color:var(--gold); font-weight:bold; margin-bottom:6px;}
+  .brand-title{font-size:32px; line-height:1.05; margin:0;}
+  .brand-sub{color:#C9D6DD; font-size:13.5px; margin-top:6px;}
+  .meta-box{text-align:right; font-size:12.5px; color:#C9D6DD; line-height:1.7;}
+  .meta-box b{color:#fff;}
+  .stars{color:var(--gold); letter-spacing:2px; font-size:15px;}
+  .refresh-bar{display:flex; align-items:center; gap:12px; margin-top:18px; flex-wrap:wrap;}
+  .btn{background:var(--gold); color:#fff; border:none; padding:8px 16px; border-radius:20px; font-weight:bold; font-size:12.5px; cursor:pointer;}
+  .btn:hover{filter:brightness(1.06);}
+  .status{font-size:11.5px; color:#C9D6DD;}
+  .status.err{color:#F3B7AE;}
+  .prepared-by{display:flex; flex-direction:column; align-items:flex-end; gap:8px;}
+  .prepared-by img{height:32px; width:auto; display:block;}
+  .prepared-by .pb-text{font-size:11px; color:#C9D6DD; letter-spacing:.3px;}
+  .prepared-by .pb-text b{color:#fff;}
+
+  .wrap{padding:30px 48px 60px; max-width:1300px; margin:0 auto;}
+  .section-label{display:flex; align-items:center; gap:10px; font-size:12px; text-transform:uppercase; letter-spacing:2px; color:var(--sub); margin:32px 0 14px;}
+  .section-label::after{content:""; flex:1; height:1px; background:var(--line);}
+
+  .kpi-row{display:grid; grid-template-columns:repeat(6,1fr); gap:12px;}
+  .kpi{background:var(--card); border-radius:10px; padding:16px; border:1px solid var(--line); box-shadow:0 1px 2px rgba(20,40,55,.03);}
+  .kpi .label{font-size:10.5px; text-transform:uppercase; letter-spacing:1px; color:var(--sub); margin-bottom:6px;}
+  .kpi .value{font-size:26px;}
+  .kpi .value.up{color:var(--up);} .kpi .value.down{color:var(--down);} .kpi .value.flat{color:var(--flat);}
+  .kpi .foot{font-size:11px; color:var(--sub); margin-top:3px;}
+
+  .grid-2{display:grid; grid-template-columns:1.2fr 1fr; gap:16px;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:20px; box-shadow:0 1px 2px rgba(20,40,55,.03);}
+  .card h3{margin:0 0 10px; font-size:13px; text-transform:uppercase; letter-spacing:1.2px; color:var(--sub); font-weight:700;}
+
+  table{width:100%; border-collapse:collapse; font-size:12.8px;}
+  thead th{text-align:left; font-size:10px; text-transform:uppercase; letter-spacing:.6px; color:var(--sub); padding:9px 10px; border-bottom:2px solid var(--navy); position:sticky; top:0; background:var(--card);}
+  tbody td{padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:middle;}
+  tbody tr:hover{background:#FAFBF9;}
+  .kw-main{font-weight:bold; color:var(--navy);}
+  .pos-badge{display:inline-flex; align-items:center; justify-content:center; min-width:28px; padding:2px 6px; border-radius:6px; font-weight:bold; font-size:12px;}
+  .pos-good{background:#E4F4EA; color:var(--up);} .pos-mid{background:#FDF3DC; color:#A87C0B;}
+  .pos-bad{background:#FBE9E6; color:var(--down);} .pos-none{background:#EEF0F1; color:var(--flat);}
+  .chg{font-weight:bold; font-size:12px;} .chg.up{color:var(--up);} .chg.down{color:var(--down);} .chg.flat{color:var(--flat);}
+  .table-scroll{max-height:520px; overflow-y:auto; border-radius:8px;}
+  .search-box{width:100%; padding:9px 12px; border:1px solid var(--line); border-radius:8px; font-size:13px; margin-bottom:12px;}
+
+  .tabs{display:flex; gap:8px; margin-bottom:14px;}
+  .tab{padding:7px 14px; border-radius:18px; font-size:12px; font-weight:bold; cursor:pointer; border:1px solid var(--line); background:#fff; color:var(--sub);}
+  .tab.active{background:var(--navy); color:#fff; border-color:var(--navy);}
+
+  footer{text-align:center; padding:24px 20px; color:var(--sub); font-size:11.5px; border-top:1px solid var(--line); margin-top:26px;}
+  footer .owner-line{color:var(--navy); font-weight:bold; margin-bottom:4px;}
+  .loading{padding:60px; text-align:center; color:var(--sub); font-size:14px;}
+  @media(max-width:1000px){ .kpi-row{grid-template-columns:repeat(2,1fr);} .grid-2{grid-template-columns:1fr;} .wrap{padding:22px;} .masthead{padding:26px 22px;} }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-top">
+    <div>
+      <div class="brand-eyebrow">SEO Performance · Live Dashboard </div>
+      <h1 class="brand-title display">Ranking Report Dashboard</h1>
+      <div class="brand-sub">Tayler Insurance</div>
+    </div>
+    <div class="prepared-by">
+      <img src="https://www.xpertzesolutions.com/wp-content/uploads/brizy/imgs/Xpertz-eSolutions-Logo-Wh-220x53x0x3x220x47x1755648802.png" alt="Xpertz eSolutions">
+      <div class="pb-text">Prepared By: <b><span style="color:#C9D6DD; font-size:12px;">Xpertz eSolutions</span></b></div>
+      <div class="meta-box">
+        
+        <div id="lastUpdated">Loading data…</div>
+      </div>
+    </div>
+  </div>
+  <div class="refresh-bar">
+    <button class="btn" onclick="loadData()">↻ Refresh Report</button>
+    <span class="status" id="statusMsg">Connecting to server…</span>
+  </div>
+</div>
+
+<div class="wrap" id="app">
+  <div class="loading">Pulling the latest data from server…</div>
+</div>
+
+<footer>
+  <div class="owner-line">Tayler Insurance & Estate Planning </div>
+  Internal SEO Reporting · taylerinsurance.com <br>
+</footer>
+
+<script>
+const SHEET_ID = "1w3nZLRmt9sqqvPs7pnrsV02NbfJ-xO4YySG8KMpHESU";
+const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
+
+// simple CSV line parser (handles quoted fields with commas)
+function parseCSV(text){
+  const rows = [];
+  let row = [], field = '', inQuotes = false;
+  for(let i=0;i<text.length;i++){
+    const c = text[i];
+    if(inQuotes){
+      if(c === '"'){
+        if(text[i+1] === '"'){ field+='"'; i++; } else inQuotes=false;
+      } else field += c;
+    } else {
+      if(c === '"') inQuotes = true;
+      else if(c === ','){ row.push(field); field=''; }
+      else if(c === '\n' || c === '\r'){
+        if(c === '\r' && text[i+1]==='\n') i++;
+        row.push(field); field=''; rows.push(row); row=[];
+      } else field += c;
+    }
+  }
+  if(field.length || row.length){ row.push(field); rows.push(row); }
+  return rows.filter(r => r.length>1 || r[0] !== '');
+}
+
+function posClass(v){
+  if(v === null || isNaN(v)) return 'pos-none';
+  if(v <= 10) return 'pos-good';
+  if(v <= 50) return 'pos-mid';
+  return 'pos-bad';
+}
+function num(v){
+  if(v===undefined) return null;
+  const t = v.trim();
+  if(t === '' || t.toUpperCase() === 'NA') return null;
+  const n = parseFloat(t.replace(/[^0-9.\-]/g,''));
+  return isNaN(n) ? null : n;
+}
+
+let charts = {};
+function destroyCharts(){ Object.values(charts).forEach(c=>c && c.destroy()); charts = {}; }
+
+async function loadData(){
+  document.getElementById('statusMsg').textContent = 'Fetching latest data…';
+  document.getElementById('statusMsg').className = 'status';
+  try{
+    const res = await fetch(CSV_URL, {cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const text = await res.text();
+    const rows = parseCSV(text);
+    render(rows);
+    document.getElementById('statusMsg').textContent = 'Live Ranking Data';
+    document.getElementById('lastUpdated').textContent = 'Refreshed: ' + new Date().toLocaleString();
+  }catch(err){
+    document.getElementById('statusMsg').textContent = 'Could not reach the server';
+    document.getElementById('statusMsg').className = 'status err';
+    document.getElementById('app').innerHTML = `<div class="loading">⚠ Couldn't load live data.<br><span style="font-size:12px;">${err.message}. Check server settings, then hit Refresh.</span></div>`;
+  }
+}
+
+function render(rows){
+  destroyCharts();
+  // Locate rows by label text instead of fixed position, so the layout can
+  // shift (extra/removed rows) without breaking the numbers.
+  const findRow = (pattern) => rows.find(r => r[1] && pattern.test(r[1]));
+  const top100Row  = findRow(/Top\s*100/i);
+  const top10Row   = findRow(/Top\s*10(?!\d)/i);
+  const b1150Row   = findRow(/11-50/);
+  const b51100Row  = findRow(/51-100/);
+  const headerRow  = rows.find(r => (r[1]||'').trim().toLowerCase() === 'keyword');
+  const headerIdx  = headerRow ? rows.indexOf(headerRow) : -1;
+  const dateRow    = headerIdx > 0 ? rows[headerIdx - 1] : [];
+
+  const toBucket = (r) => r ? { start: num(r[4]), prev: num(r[5]), current: num(r[6]) } : { start:null, prev:null, current:null };
+  const buckets = [ toBucket(top100Row), toBucket(top10Row), toBucket(b1150Row), toBucket(b51100Row) ];
+
+  const startLabel   = (dateRow[4] && dateRow[4].trim()) || 'Baseline';
+  const prevLabel     = (dateRow[5] && dateRow[5].trim()) || 'Previous';
+  const currentLabel  = (dateRow[6] && dateRow[6].trim()) || 'Current';
+
+  const kwRows = headerIdx > -1 ? rows.slice(headerIdx + 1).filter(r => r[1] && r[1].trim() !== '') : [];
+  const keywords = kwRows.map(r => ({
+    keyword: r[1],
+    canadaVol: num(r[2]),
+    start: num(r[4]),
+    prev: num(r[5]),
+    current: num(r[6]),
+    totalDiff: num(r[7])
+  }));
+
+  // Count movement directly from keyword-level MoM deltas (most reliable source)
+  let movedUp=0, movedDown=0, unchanged=0, notRanked=0;
+  keywords.forEach(k=>{
+    if(k.prev===null || k.current===null) notRanked++;
+    else if(k.current < k.prev) movedUp++;
+    else if(k.current > k.prev) movedDown++;
+    else unchanged++;
+  });
+
+  const top100Now = buckets[0].current, top10Now = buckets[1].current;
+  const b1150Now = buckets[2].current, b51100Now = buckets[3].current;
+  const top100Prev = buckets[0].prev, top10Prev = buckets[1].prev;
+
+  const html = `
+    <div class="section-label">Monthly Snapshot — ${prevLabel} → ${currentLabel}</div>
+    <div class="kpi-row">
+      <div class="kpi"><div class="label">Keywords Moved Up</div><div class="value up display">${movedUp} ▲</div><div class="foot">position improved</div></div>
+      <div class="kpi"><div class="label">Keywords Moved Down</div><div class="value down display">${movedDown} ▼</div><div class="foot">position declined</div></div>
+      <div class="kpi"><div class="label">Unchanged</div><div class="value flat display">${unchanged}</div><div class="foot">no movement</div></div>
+      <div class="kpi"><div class="label">Top 10 Keywords</div><div class="value ${trendClass(top10Now,top10Prev)} display">${fmt(top10Now)}</div><div class="foot">was ${fmt(top10Prev)}</div></div>
+      <div class="kpi"><div class="label">Top 100 Coverage</div><div class="value ${trendClass(top100Now,top100Prev)} display">${fmt(top100Now)}</div><div class="foot">was ${fmt(top100Prev)}</div></div>
+      <div class="kpi"><div class="label">Tracked Keywords</div><div class="value flat display">${keywords.length}</div><div class="foot">in this report</div></div>
+    </div>
+
+    <div class="section-label">Tracked Keywords — Full Ranking History</div>
+    <div class="card">
+      <input class="search-box" id="kwSearch" placeholder="Filter keywords…" onkeyup="filterTable()">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Keyword</th>
+              <th>Monthly Searches</th>
+              <th>${startLabel}</th>
+              <th>${prevLabel}</th>
+              <th>${currentLabel}</th>
+              <th>MoM Change</th>
+              <th>Total Change</th>
+            </tr>
+          </thead>
+          <tbody id="kwTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-label">RAG Priority Summary</div>
+    <div class="card">
+      <table>
+        <thead><tr><th>Focus Area</th><th>Observation</th><th style="text-align:right;">Priority</th></tr></thead>
+        <tbody>
+          <tr><td class="kw-main">Declining Keywords</td><td>${movedDown} keyword${movedDown===1?'':'s'} lost ground between ${prevLabel} and ${currentLabel}</td><td style="text-align:right;"><span style="background:#FBE9E6;color:var(--down);padding:2px 8px;border-radius:10px;font-size:10px;font-weight:bold;">${movedDown>5?'HIGH':'MEDIUM'}</span></td></tr>
+          <tr><td class="kw-main">Unranked / NA Terms</td><td>${notRanked} keyword${notRanked===1?'':'s'} not currently ranked or missing data</td><td style="text-align:right;"><span style="background:#FDF3DC;color:#A87C0B;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:bold;">MEDIUM</span></td></tr>
+          <tr><td class="kw-main">Top 10 Growth</td><td>Top 10 keyword count moved from ${fmt(top10Prev)} to ${fmt(top10Now)}</td><td style="text-align:right;"><span style="background:#E4F4EA;color:var(--up);padding:2px 8px;border-radius:10px;font-size:10px;font-weight:bold;">${top10Now>=top10Prev?'ON TRACK':'WATCH'}</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  `;
+  document.getElementById('app').innerHTML = html;
+
+  // Populate keyword table
+  const tbody = document.getElementById('kwTableBody');
+  keywords.forEach(k=>{
+    const tr = document.createElement('tr');
+    tr.dataset.kw = k.keyword.toLowerCase();
+    const mom = (k.prev!==null && k.current!==null) ? (k.prev - k.current) : null;
+    const total = (k.start!==null && k.current!==null) ? (k.start - k.current) : null;
+    tr.innerHTML = `
+      <td class="kw-main">${k.keyword}</td>
+      <td>${fmt(k.canadaVol)}</td>
+      <td><span class="pos-badge ${posClass(k.start)}">${fmt(k.start)}</span></td>
+      <td><span class="pos-badge ${posClass(k.prev)}">${fmt(k.prev)}</span></td>
+      <td><span class="pos-badge ${posClass(k.current)}">${fmt(k.current)}</span></td>
+      <td>${changeCell(mom)}</td>
+      <td>${changeCell(total)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+}
+
+function trendClass(now, prev){
+  if(now===null||prev===null) return 'flat';
+  if(now>prev) return 'up';
+  if(now<prev) return 'down';
+  return 'flat';
+}
+function fmt(v){ return v===null || v===undefined ? '—' : v; }
+function changeCell(delta){
+  if(delta===null) return '<span style="color:#9AA6AD;">—</span>';
+  if(delta===0) return '<span class="chg flat">0</span>';
+  const cls = delta>0 ? 'up':'down';
+  const arrow = delta>0 ? '▲':'▼';
+  return `<span class="chg ${cls}">${arrow} ${Math.abs(delta)}</span>`;
+}
+function filterTable(){
+  const q = document.getElementById('kwSearch').value.toLowerCase();
+  document.querySelectorAll('#kwTableBody tr').forEach(tr=>{
+    tr.style.display = tr.dataset.kw.includes(q) ? '' : 'none';
+  });
+}
+
+loadData();
+</script>
+</body>
+</html>
