@@ -131,6 +131,21 @@ function parseCSV(text){
   return rows.filter(r => r.length>1 || r[0] !== '');
 }
 
+// Google's CSV export can trim trailing empty cells inconsistently from
+// row to row. Since column positions here are computed relative to the
+// END of a row (last = Difference, 2nd-last = current month, etc.), any
+// row shorter than the sheet's true width throws that math off. Pad every
+// row out to the widest row in the sheet before doing any column math.
+function normalizeRows(rows){
+  const maxLen = rows.reduce((m,r) => Math.max(m, r.length), 0);
+  return rows.map(r => {
+    if(r.length === maxLen) return r;
+    const padded = r.slice();
+    while(padded.length < maxLen) padded.push('');
+    return padded;
+  });
+}
+
 function posClass(v){
   if(v === null || isNaN(v)) return 'pos-none';
   if(v <= 10) return 'pos-good';
@@ -155,7 +170,7 @@ async function loadData(){
     const res = await fetch(CSV_URL, {cache:'no-store'});
     if(!res.ok) throw new Error('HTTP '+res.status);
     const text = await res.text();
-    const rows = parseCSV(text);
+    const rows = normalizeRows(parseCSV(text));
     render(rows);
     document.getElementById('statusMsg').textContent = 'Live Ranking Data';
     document.getElementById('lastUpdated').textContent = 'Refreshed: ' + new Date().toLocaleString();
