@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -179,21 +180,33 @@ function render(rows){
   const headerIdx  = headerRow ? rows.indexOf(headerRow) : -1;
   const dateRow    = headerIdx > 0 ? rows[headerIdx - 1] : [];
 
-  const toBucket = (r) => r ? { start: num(r[4]), prev: num(r[5]), current: num(r[6]) } : { start:null, prev:null, current:null };
+  // Column positions are anchored to the END of the row, since a new month
+  // column gets appended before "Difference" every month:
+  //   ... | Baseline | ... | Previous Month | Current Month | Difference
+  // Baseline always stays at a fixed position (right after the volume
+  // columns); Previous/Current/Difference are always the 3rd-last,
+  // 2nd-last and last columns respectively.
+  const colCount   = Math.max(dateRow.length || 0, headerRow ? headerRow.length : 0);
+  const BASELINE_IDX = 4;
+  const diffIdx    = colCount - 1;
+  const currentIdx = colCount - 2;
+  const prevIdx    = colCount - 3;
+
+  const toBucket = (r) => r ? { start: num(r[BASELINE_IDX]), prev: num(r[prevIdx]), current: num(r[currentIdx]) } : { start:null, prev:null, current:null };
   const buckets = [ toBucket(top100Row), toBucket(top10Row), toBucket(b1150Row), toBucket(b51100Row) ];
 
-  const startLabel   = (dateRow[4] && dateRow[4].trim()) || 'Baseline';
-  const prevLabel     = (dateRow[5] && dateRow[5].trim()) || 'Previous';
-  const currentLabel  = (dateRow[6] && dateRow[6].trim()) || 'Current';
+  const startLabel   = (dateRow[BASELINE_IDX] && dateRow[BASELINE_IDX].trim()) || 'Baseline';
+  const prevLabel     = (dateRow[prevIdx] && dateRow[prevIdx].trim()) || 'Previous';
+  const currentLabel  = (dateRow[currentIdx] && dateRow[currentIdx].trim()) || 'Current';
 
   const kwRows = headerIdx > -1 ? rows.slice(headerIdx + 1).filter(r => r[1] && r[1].trim() !== '') : [];
   const keywords = kwRows.map(r => ({
     keyword: r[1],
     canadaVol: num(r[2]),
-    start: num(r[4]),
-    prev: num(r[5]),
-    current: num(r[6]),
-    totalDiff: num(r[7])
+    start: num(r[BASELINE_IDX]),
+    prev: num(r[prevIdx]),
+    current: num(r[currentIdx]),
+    totalDiff: num(r[diffIdx])
   }));
 
   // Count movement directly from keyword-level MoM deltas (most reliable source)
