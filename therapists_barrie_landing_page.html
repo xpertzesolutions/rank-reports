@@ -1,0 +1,622 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --forest: #1C3A2F;
+    --sage: #4A7C59;
+    --sage-light: #6A9E78;
+    --cream: #F7F4EE;
+    --gold: #C9A96E;
+    --gold-light: #E8D5A8;
+    --charcoal: #2C2C2A;
+    --body: #4A4A47;
+    --muted: #7A7A75;
+    --divider: #E2DDD5;
+    --white: #FFFFFF;
+    --tag-bg: #EAF3DE;
+    --tag-text: #27500A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .lp { font-family: 'Inter', sans-serif; color: var(--charcoal); background: var(--white); max-width: 860px; margin: 0 auto; }
+
+  .display { font-family: 'Playfair Display', serif; }
+
+  /* ── STICKY NAV ── */
+  .sticky-bar {
+    background: var(--forest);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 8px 8px 0 0;
+  }
+  .sticky-bar .brand { color: var(--gold-light); font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+  .sticky-bar .nav-links { display: flex; gap: 20px; }
+  .sticky-bar .nav-links a { color: rgba(255,255,255,0.75); font-size: 12px; text-decoration: none; }
+  .sticky-bar .nav-cta { background: var(--gold); color: var(--forest); font-size: 12px; font-weight: 600; padding: 7px 16px; border-radius: 6px; border: none; cursor: pointer; }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--forest);
+    padding: 56px 48px 52px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,169,110,0.18);
+    animation: breathe 4s ease-in-out infinite;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,169,110,0.12);
+    animation: breathe 4s ease-in-out infinite 0.5s;
+  }
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.06); opacity: 1; }
+  }
+  .hero-eyebrow { color: var(--gold); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 18px; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: 42px; line-height: 1.18; color: var(--white); font-weight: 600; margin-bottom: 20px; max-width: 560px; }
+  .hero h1 em { font-style: italic; color: var(--gold-light); }
+  .hero-sub { color: rgba(255,255,255,0.75); font-size: 16px; line-height: 1.65; max-width: 520px; margin-bottom: 32px; }
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; }
+  .btn-primary { background: var(--gold); color: var(--forest); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; padding: 13px 24px; border-radius: 7px; border: none; cursor: pointer; }
+  .btn-secondary { background: transparent; color: rgba(255,255,255,0.85); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; padding: 13px 24px; border-radius: 7px; border: 1px solid rgba(255,255,255,0.28); cursor: pointer; }
+  .hero-proof { display: flex; gap: 28px; }
+  .hero-proof-item { display: flex; align-items: center; gap: 8px; }
+  .hero-proof-item .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--sage-light); flex-shrink: 0; }
+  .hero-proof-item span { color: rgba(255,255,255,0.65); font-size: 12px; }
+
+  /* ── TRUST BAR ── */
+  .trust-bar {
+    background: var(--cream);
+    border-top: 3px solid var(--gold);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .trust-item { display: flex; align-items: center; gap: 8px; padding: 6px 20px; border-right: 1px solid var(--divider); }
+  .trust-item:first-child { padding-left: 0; }
+  .trust-item:last-child { border-right: none; }
+  .trust-icon { color: var(--sage); font-size: 16px; }
+  .trust-label { font-size: 12px; font-weight: 600; color: var(--forest); }
+  .trust-sub { font-size: 11px; color: var(--muted); }
+
+  /* ── SECTION WRAPPERS ── */
+  .section { padding: 52px 48px; }
+  .section-alt { background: var(--cream); }
+  .section-forest { background: var(--forest); }
+
+  .section-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sage); margin-bottom: 10px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 600; color: var(--forest); line-height: 1.25; margin-bottom: 16px; }
+  .section-title-light { color: var(--white); }
+  .section-body { font-size: 15px; line-height: 1.72; color: var(--body); max-width: 640px; }
+  .section-body-light { color: rgba(255,255,255,0.75); }
+
+  /* ── WHY RESET ── */
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 32px; }
+  .why-card { background: var(--white); border: 0.5px solid var(--divider); border-radius: 12px; padding: 22px 24px; border-left: 3px solid var(--sage); }
+  .why-card-title { font-size: 14px; font-weight: 600; color: var(--forest); margin-bottom: 8px; }
+  .why-card-body { font-size: 13px; line-height: 1.65; color: var(--body); }
+
+  /* ── TEAM ── */
+  .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+  .therapist-card { background: var(--white); border: 0.5px solid var(--divider); border-radius: 12px; padding: 20px; transition: border-color 0.2s; }
+  .therapist-card:hover { border-color: var(--sage-light); }
+  .therapist-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--cream); border: 2px solid var(--gold-light); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--forest); margin-bottom: 12px; }
+  .therapist-name { font-size: 14px; font-weight: 600; color: var(--forest); margin-bottom: 2px; }
+  .therapist-cred { font-size: 11px; font-weight: 600; color: var(--sage); margin-bottom: 8px; letter-spacing: 0.04em; }
+  .therapist-spec { font-size: 12px; color: var(--body); line-height: 1.55; margin-bottom: 14px; }
+  .therapist-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
+  .tag { background: var(--tag-bg); color: var(--tag-text); font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .therapist-link { font-size: 12px; font-weight: 600; color: var(--sage); text-decoration: none; display: flex; align-items: center; gap: 4px; }
+
+  .team-note { background: linear-gradient(135deg, var(--forest), #2d5240); border-radius: 12px; padding: 24px; margin-top: 20px; display: flex; align-items: center; justify-content: space-between; }
+  .team-note-text { font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.55; }
+  .team-note-text strong { color: var(--gold-light); }
+  .team-note-cta { background: var(--gold); color: var(--forest); font-size: 12px; font-weight: 700; padding: 10px 18px; border-radius: 7px; border: none; cursor: pointer; white-space: nowrap; margin-left: 24px; flex-shrink: 0; }
+
+  /* ── SERVICES ── */
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 28px; }
+  .service-link { display: block; background: var(--white); border: 0.5px solid var(--divider); border-radius: 10px; padding: 16px 18px; text-decoration: none; transition: border-color 0.2s, background 0.2s; }
+  .service-link:hover { border-color: var(--sage-light); background: #F0F7F2; }
+  .service-link-title { font-size: 13px; font-weight: 600; color: var(--forest); margin-bottom: 3px; display: flex; align-items: center; justify-content: space-between; }
+  .service-link-title i { color: var(--sage-light); font-size: 14px; }
+  .service-link-sub { font-size: 11px; color: var(--muted); }
+
+  /* ── HOW TO CHOOSE ── */
+  .choose-steps { margin-top: 28px; display: flex; flex-direction: column; gap: 20px; }
+  .choose-step { display: flex; gap: 20px; align-items: flex-start; }
+  .step-num { width: 36px; height: 36px; border-radius: 50%; background: var(--forest); color: var(--gold-light); font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content-title { font-size: 14px; font-weight: 600; color: var(--forest); margin-bottom: 5px; }
+  .step-content-body { font-size: 13px; color: var(--body); line-height: 1.6; }
+  .step-content-note { font-size: 12px; color: var(--sage); font-weight: 500; margin-top: 5px; }
+
+  /* ── LOCATIONS ── */
+  .locations-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 28px; }
+  .location-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14); border-radius: 12px; padding: 22px; }
+  .location-name { font-size: 15px; font-weight: 600; color: var(--gold-light); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .location-addr { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.55; margin-bottom: 10px; }
+  .location-detail { font-size: 12px; color: rgba(255,255,255,0.5); }
+  .nap-block { margin-top: 24px; background: rgba(201,169,110,0.12); border-radius: 10px; padding: 16px 20px; display: flex; align-items: center; gap: 28px; border: 1px solid rgba(201,169,110,0.25); }
+  .nap-item { font-size: 12px; }
+  .nap-label { color: rgba(255,255,255,0.45); margin-bottom: 2px; text-transform: uppercase; font-size: 10px; letter-spacing: 0.08em; font-weight: 600; }
+  .nap-value { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+  /* ── FAQ ── */
+  .faq-list { margin-top: 28px; display: flex; flex-direction: column; gap: 0; border: 0.5px solid var(--divider); border-radius: 12px; overflow: hidden; }
+  .faq-item { border-bottom: 0.5px solid var(--divider); padding: 20px 24px; }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q { font-size: 14px; font-weight: 600; color: var(--forest); margin-bottom: 10px; display: flex; align-items: flex-start; gap: 12px; }
+  .faq-q-mark { background: var(--sage); color: var(--white); font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .faq-a { font-size: 13px; color: var(--body); line-height: 1.65; padding-left: 32px; }
+
+  /* ── TESTIMONIALS ── */
+  .reviews-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px; }
+  .review-card { background: var(--white); border: 0.5px solid var(--divider); border-radius: 12px; padding: 22px; }
+  .review-stars { color: var(--gold); font-size: 13px; margin-bottom: 10px; letter-spacing: 2px; }
+  .review-text { font-family: 'Playfair Display', serif; font-style: italic; font-size: 14px; color: var(--forest); line-height: 1.6; margin-bottom: 14px; }
+  .review-attr { font-size: 11px; color: var(--muted); font-weight: 500; }
+  .review-platform { font-size: 10px; color: var(--sage); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* ── CLOSING CTA ── */
+  .cta-section { background: var(--cream); padding: 52px 48px; text-align: center; border-top: 3px solid var(--gold); }
+  .cta-title { font-family: 'Playfair Display', serif; font-size: 34px; color: var(--forest); margin-bottom: 14px; }
+  .cta-body { font-size: 15px; color: var(--body); max-width: 480px; margin: 0 auto 28px; line-height: 1.65; }
+  .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .cta-btn-primary { background: var(--forest); color: var(--white); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; padding: 14px 28px; border-radius: 7px; border: none; cursor: pointer; }
+  .cta-btn-secondary { background: transparent; color: var(--forest); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; padding: 14px 28px; border-radius: 7px; border: 1.5px solid var(--forest); cursor: pointer; }
+  .cta-reassurance { font-size: 12px; color: var(--muted); margin-top: 16px; }
+
+  /* ── SCHEMA NOTE ── */
+  .schema-note { background: #F0F7F2; border-left: 3px solid var(--sage); border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 16px 0 0; font-size: 11px; color: var(--sage); font-weight: 500; }
+
+  /* ── SAFE MESSAGING FOOTER ── */
+  .safe-footer { background: #FFF8F0; border-top: 1px solid #F0E8D8; padding: 14px 32px; font-size: 11px; color: var(--muted); text-align: center; line-height: 1.55; }
+  .safe-footer strong { color: var(--forest); }
+
+  /* ── WIREFRAME LABEL ── */
+  .wf-label { background: var(--forest); color: var(--gold); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 10px; border-radius: 4px; display: inline-block; margin-bottom: 8px; }
+  .section-divider { height: 1px; background: var(--divider); margin: 0 48px; }
+</style>
+
+<h2 class="sr-only">Reset Counselling & Psychotherapy — /therapists-barrie landing page wireframe with full SEO-optimised content</h2>
+
+<div class="lp">
+
+  <!-- STICKY NAV -->
+  <div class="sticky-bar">
+    <div class="brand">Reset Counselling & Psychotherapy</div>
+    <div class="nav-links">
+      <a href="#">Our Therapists</a>
+      <a href="#">Services</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </div>
+    <button class="sticky-bar nav-cta">Book a session</button>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div style="padding: 10px 48px; background: var(--cream); font-size: 11px; color: var(--muted); display: flex; gap: 6px; align-items: center; border-bottom: 0.5px solid var(--divider);">
+    <span>Home</span>
+    <i class="ti ti-chevron-right" style="font-size: 10px;" aria-hidden="true"></i>
+    <span style="color: var(--forest); font-weight: 500;">Therapists in Barrie</span>
+    <div class="schema-note" style="margin: 0; margin-left: auto;">
+      <i class="ti ti-code" aria-hidden="true"></i> BreadcrumbList schema · MedicalBusiness schema · FAQPage schema · Person schema (×11)
+    </div>
+  </div>
+
+  <!-- ══ SECTION 1: HERO ══ -->
+  <div class="hero">
+    <div class="wf-label">Section 1 — Hero</div>
+    <p class="hero-eyebrow">Registered Therapists in Barrie, Ontario · Accepting New Clients</p>
+    <h1 class="display">Find therapists in Barrie<br>you'll <em>actually</em> want to return to.</h1>
+    <p class="hero-sub">Reset Counselling & Psychotherapy is a team of registered psychotherapists, social workers, and a registered nurse offering in-person counselling in Barrie and Orillia — and virtual therapy across Ontario. We match you to the right therapist, not just the next available one.</p>
+    <div class="hero-ctas">
+      <button class="btn-primary">Book a free 15-min consultation</button>
+      <button class="btn-secondary">Take our therapist match quiz</button>
+    </div>
+    <div class="hero-proof">
+      <div class="hero-proof-item"><div class="dot"></div><span>11 registered therapists</span></div>
+      <div class="hero-proof-item"><div class="dot"></div><span>In-person & virtual</span></div>
+      <div class="hero-proof-item"><div class="dot"></div><span>CRPO & OCSWSSW regulated</span></div>
+      <div class="hero-proof-item"><div class="dot"></div><span>4.8★ on Google</span></div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 2: TRUST BAR ══ -->
+  <div class="trust-bar">
+    <div class="wf-label" style="flex-shrink:0; margin-bottom:0; margin-right: 16px;">Section 2 — Trust signals</div>
+    <div class="trust-item">
+      <i class="ti ti-certificate trust-icon" aria-hidden="true"></i>
+      <div><div class="trust-label">Registered Psychotherapists (RP)</div><div class="trust-sub">Regulated by CRPO Ontario</div></div>
+    </div>
+    <div class="trust-item">
+      <i class="ti ti-heart trust-icon" aria-hidden="true"></i>
+      <div><div class="trust-label">Registered Social Workers (RSW)</div><div class="trust-sub">Regulated by OCSWSSW</div></div>
+    </div>
+    <div class="trust-item">
+      <i class="ti ti-stethoscope trust-icon" aria-hidden="true"></i>
+      <div><div class="trust-label">Registered Nurse (RN)</div><div class="trust-sub">Regulated by CNO Ontario</div></div>
+    </div>
+    <div class="trust-item">
+      <i class="ti ti-map-pin trust-icon" aria-hidden="true"></i>
+      <div><div class="trust-label">Barrie & Orillia</div><div class="trust-sub">+ Virtual across Ontario</div></div>
+    </div>
+    <div class="trust-item" style="border-right: none;">
+      <i class="ti ti-calendar-check trust-icon" aria-hidden="true"></i>
+      <div><div class="trust-label">Accepting New Clients</div><div class="trust-sub">Book directly — no referral needed</div></div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 3: WHY RESET ══ -->
+  <div class="section">
+    <div class="wf-label">Section 3 — Why Reset</div>
+    <p class="section-eyebrow">Why choose Reset Counselling</p>
+    <h2 class="section-title">A team practice — so you find the right fit, not just someone available.</h2>
+    <p class="section-body">Most people searching for therapists in Barrie land on a directory and scroll through profiles alone. At Reset, we make the matching part easier. Tell us what you're looking for, and we'll point you toward the therapist on our team whose experience and approach aligns with yours. When the fit is right, therapy works better.</p>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-card-title">Qualified, regulated professionals</div>
+        <div class="why-card-body">Every therapist on our team holds a current regulated designation — RP, RSW, or RN. This matters for insurance reimbursement and for your peace of mind.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-card-title">Therapist matching — not guessing</div>
+        <div class="why-card-body">Our quiz and consultation process helps you find a therapist whose specialisation and style fits what you're going through. Fewer false starts.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-card-title">In-person and virtual, your choice</div>
+        <div class="why-card-body">Come see us at our Barrie clinic on Essa Road, connect from Orillia, or meet virtually from anywhere in Ontario — same quality of care.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-card-title">Evidence-based, person-centred care</div>
+        <div class="why-card-body">We use approaches that research supports — CBT, EFT, trauma-informed care, EMDR, and more — adapted to you, not applied by template.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══ SECTION 4: TEAM DIRECTORY ══ -->
+  <div class="section">
+    <div class="wf-label">Section 4 — Therapist team (AI entity signals)</div>
+    <p class="section-eyebrow">Meet our therapists in Barrie</p>
+    <h2 class="section-title">Registered, experienced, and welcoming new clients.</h2>
+    <p class="section-body" style="margin-bottom: 0;">Our team of 11 includes registered psychotherapists, social workers, and a registered nurse. Each therapist brings distinct specialisations — so whether you're navigating trauma, relationship challenges, a late ADHD diagnosis, or grief, there's someone here whose work was built for that.</p>
+
+    <div class="team-grid">
+      <!-- Card 1 -->
+      <div class="therapist-card">
+        <div class="therapist-avatar">LT</div>
+        <div class="therapist-name">Lindsay Tsang</div>
+        <div class="therapist-cred">RP · Founder</div>
+        <div class="therapist-spec">Trauma-informed care, self-esteem, relationships, and individual counselling. Over a decade working with clients in Barrie.</div>
+        <div class="therapist-tags"><span class="tag">Trauma</span><span class="tag">Self-esteem</span><span class="tag">Relationships</span></div>
+        <a href="/lindsay-tsang" class="therapist-link">Meet Lindsay <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+      </div>
+      <!-- Card 2 -->
+      <div class="therapist-card">
+        <div class="therapist-avatar">ML</div>
+        <div class="therapist-name">Melanie Lockhart</div>
+        <div class="therapist-cred">RP (Qualifying)</div>
+        <div class="therapist-spec">Anxiety, depression, life transitions, and building emotional resilience in individuals navigating difficult seasons.</div>
+        <div class="therapist-tags"><span class="tag">Anxiety</span><span class="tag">Depression</span><span class="tag">Life transitions</span></div>
+        <a href="/melanie" class="therapist-link">Meet Melanie <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+      </div>
+      <!-- Card 3 -->
+      <div class="therapist-card">
+        <div class="therapist-avatar">TT</div>
+        <div class="therapist-name">Tamari Thompson-Kraft</div>
+        <div class="therapist-cred">RP</div>
+        <div class="therapist-spec">Couples therapy using EFT, communication and trust repair, and support for individuals experiencing relationship distress.</div>
+        <div class="therapist-tags"><span class="tag">Couples</span><span class="tag">EFT</span><span class="tag">Communication</span></div>
+        <a href="/tamari" class="therapist-link">Meet Tamari <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+      </div>
+      <!-- Card 4 -->
+      <div class="therapist-card">
+        <div class="therapist-avatar">CH</div>
+        <div class="therapist-name">Craig Head</div>
+        <div class="therapist-cred">RP (Qualifying)</div>
+        <div class="therapist-spec">Trauma, PTSD, anger management, and supporting men navigating emotional wellbeing and identity.</div>
+        <div class="therapist-tags"><span class="tag">Trauma</span><span class="tag">Anger</span><span class="tag">Men's therapy</span></div>
+        <a href="/craig" class="therapist-link">Meet Craig <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+      </div>
+      <!-- Card 5 -->
+      <div class="therapist-card">
+        <div class="therapist-avatar">VS</div>
+        <div class="therapist-name">Van Shanahan</div>
+        <div class="therapist-cred">RP</div>
+        <div class="therapist-spec">Grief and loss, chronic illness, depression, and working with individuals seeking meaning through significant life changes.</div>
+        <div class="therapist-tags"><span class="tag">Grief</span><span class="tag">Chronic illness</span><span class="tag">Depression</span></div>
+        <a href="/van" class="therapist-link">Meet Van <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+      </div>
+      <!-- Card 6 -->
+      <div class="therapist-card">
+        <div class="therapist-avatar">LJ</div>
+        <div class="therapist-name">Leah Juras</div>
+        <div class="therapist-cred">RP</div>
+        <div class="therapist-spec">Adolescent therapy, social anxiety, self-esteem, and supporting teens and young adults through identity development.</div>
+        <div class="therapist-tags"><span class="tag">Adolescents</span><span class="tag">Social anxiety</span><span class="tag">Teens</span></div>
+        <a href="/leah" class="therapist-link">Meet Leah <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+      </div>
+      <!-- Card 7 -->
+      <div class="therapist-card">
+        <div class="therapist-avatar">DB</div>
+        <div class="therapist-name">Daniel Burgoyne</div>
+        <div class="therapist-cred">RP</div>
+        <div class="therapist-spec">Addictions, ADHD, stress management, and individual counselling for adults navigating complex behavioural and emotional patterns.</div>
+        <div class="therapist-tags"><span class="tag">ADHD</span><span class="tag">Addictions</span><span class="tag">Stress</span></div>
+        <a href="/daniel" class="therapist-link">Meet Daniel <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+      </div>
+      <!-- Card 8 -->
+      <div class="therapist-card">
+        <div class="therapist-avatar">AA</div>
+        <div class="therapist-name">Andi Atkins</div>
+        <div class="therapist-cred">RP</div>
+        <div class="therapist-spec">Personality disorders, chronic pain, women's mental health, and supporting clients with complex presentations in a trauma-informed way.</div>
+        <div class="therapist-tags"><span class="tag">Chronic pain</span><span class="tag">Women's health</span><span class="tag">Complex trauma</span></div>
+        <a href="/andi" class="therapist-link">Meet Andi <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+      </div>
+      <!-- Card 9 — RSW/RN row -->
+      <div class="therapist-card">
+        <div class="therapist-avatar" style="background: #E8F3F0; border-color: #9FE1CB; color: #0F6E56;">GY</div>
+        <div class="therapist-name">Grace Yeomans</div>
+        <div class="therapist-cred" style="color: #0F6E56;">RSW</div>
+        <div class="therapist-spec">Relationships, depression, and individual social work counselling for adults across a range of mental health concerns.</div>
+        <div class="therapist-tags"><span class="tag">Depression</span><span class="tag">Relationships</span><span class="tag">RSW</span></div>
+        <a href="/grace" class="therapist-link">Meet Grace <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+      </div>
+    </div>
+
+    <!-- more therapists + matching note -->
+    <div class="team-note">
+      <div class="team-note-text">
+        We also have <strong>Kyleigh Wells, RN</strong> and <strong>Kathleen Tsang, RSW</strong> on our team — plus a Therapist Match Quiz that helps you find your best fit without having to read every profile.
+      </div>
+      <button class="team-note-cta">Take the match quiz</button>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 5: SERVICES ══ -->
+  <div class="section section-alt">
+    <div class="wf-label">Section 5 — Services (keyword-rich navigation)</div>
+    <p class="section-eyebrow">What our Barrie therapists help with</p>
+    <h2 class="section-title">Counselling for what you're actually going through.</h2>
+    <p class="section-body">Whether you're navigating something specific or just know that something needs to change, our team has experience across a wide range of concerns. Each service links to a dedicated page with full information.</p>
+
+    <div class="services-grid">
+      <a href="/barrie-counselling-services" class="service-link">
+        <div class="service-link-title">Individual Counselling <i class="ti ti-arrow-right" aria-hidden="true"></i></div>
+        <div class="service-link-sub">One-on-one therapy in Barrie</div>
+      </a>
+      <a href="/couples-therapy-counselling-barrie" class="service-link">
+        <div class="service-link-title">Couples Therapy <i class="ti ti-arrow-right" aria-hidden="true"></i></div>
+        <div class="service-link-sub">Gottman & EFT-informed</div>
+      </a>
+      <a href="/adolescent-counselling-barrie" class="service-link">
+        <div class="service-link-title">Adolescent Therapy <i class="ti ti-arrow-right" aria-hidden="true"></i></div>
+        <div class="service-link-sub">Support for teens in Barrie</div>
+      </a>
+      <a href="/anxiety-counselling-barrie" class="service-link">
+        <div class="service-link-title">Anxiety Counselling <i class="ti ti-arrow-right" aria-hidden="true"></i></div>
+        <div class="service-link-sub">Social anxiety, generalised anxiety</div>
+      </a>
+      <a href="/depression-counselling-services" class="service-link">
+        <div class="service-link-title">Depression Counselling <i class="ti ti-arrow-right" aria-hidden="true"></i></div>
+        <div class="service-link-sub">Seasonal & clinical depression</div>
+      </a>
+      <a href="/trauma-ptsd-counselling-barrie" class="service-link">
+        <div class="service-link-title">Trauma & PTSD <i class="ti ti-arrow-right" aria-hidden="true"></i></div>
+        <div class="service-link-sub">Trauma-informed, EMDR available</div>
+      </a>
+      <a href="/grief-and-loss-counselling-barrie" class="service-link">
+        <div class="service-link-title">Grief & Loss <i class="ti ti-arrow-right" aria-hidden="true"></i></div>
+        <div class="service-link-sub">Bereavement, sudden loss, disenfranchised grief</div>
+      </a>
+      <a href="/adhd" class="service-link">
+        <div class="service-link-title">ADHD <i class="ti ti-arrow-right" aria-hidden="true"></i></div>
+        <div class="service-link-sub">Adult ADHD, late diagnosis support</div>
+      </a>
+      <a href="/chronic-illness-counselling-barrie" class="service-link">
+        <div class="service-link-title">Chronic Illness & Pain <i class="ti ti-arrow-right" aria-hidden="true"></i></div>
+        <div class="service-link-sub">Mental health & chronic conditions</div>
+      </a>
+      <a href="/anger-management-barrie-counselling" class="service-link">
+        <div class="service-link-title">Anger Management <i class="ti ti-arrow-right" aria-hidden="true"></i></div>
+        <div class="service-link-sub">Barrie anger management therapy</div>
+      </a>
+      <a href="/self-esteem-counselling-barrie" class="service-link">
+        <div class="service-link-title">Self-Esteem <i class="ti ti-arrow-right" aria-hidden="true"></i></div>
+        <div class="service-link-sub">Identity, confidence, self-worth</div>
+      </a>
+      <a href="/barrie-counselling-services" class="service-link" style="border-style: dashed; background: var(--cream);">
+        <div class="service-link-title" style="color: var(--sage);">View all services <i class="ti ti-arrow-right" aria-hidden="true"></i></div>
+        <div class="service-link-sub">Full list of counselling areas</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 6: HOW TO CHOOSE ══ -->
+  <div class="section">
+    <div class="wf-label">Section 6 — How to choose (AI citation target)</div>
+    <p class="section-eyebrow">How to choose a therapist in Barrie</p>
+    <h2 class="section-title">What to look for — and what actually matters.</h2>
+    <p class="section-body">Finding the right therapist in Barrie doesn't have to feel overwhelming. Here's what's worth knowing before you book your first session — and why a team practice like Reset makes the process a little easier.</p>
+
+    <div class="choose-steps">
+      <div class="choose-step">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-content-title">Check that they're regulated</div>
+          <div class="step-content-body">In Ontario, the title "Registered Psychotherapist" (RP) is regulated by the College of Registered Psychotherapists of Ontario (CRPO). Registered Social Workers (RSW) are regulated by the OCSWSSW. You can verify any therapist's registration on their respective college's public registry. Every therapist at Reset holds a current, active regulated designation.</div>
+          <div class="step-content-note"><i class="ti ti-external-link" style="font-size:11px;" aria-hidden="true"></i> Verify at crpo.ca or ocswssw.org</div>
+        </div>
+      </div>
+      <div class="choose-step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-content-title">Match their specialisation to your situation</div>
+          <div class="step-content-body">A therapist who works primarily with couples may not be the best fit for childhood trauma, and vice versa. Look for specific experience with what you're bringing to therapy. Our therapist profiles list specialisations clearly — or take the quiz and we'll make a recommendation.</div>
+        </div>
+      </div>
+      <div class="choose-step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-content-title">Ask about approach and insurance coverage</div>
+          <div class="step-content-body">Therapy works best when you understand the approach. Most extended health benefit plans in Ontario cover sessions with an RP or RSW — but coverage varies. Ask your insurer about your plan before you book, and confirm the therapist's designation is covered. Reset provides receipts for all sessions.</div>
+        </div>
+      </div>
+      <div class="choose-step">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-content-title">Trust the first-session feeling</div>
+          <div class="step-content-body">The first session is as much about you getting a sense of the therapist as it is about them getting to know you. If it doesn't feel right, that's useful information — not a failure. At Reset, we'd rather help you find a better fit on our team than have you leave therapy altogether.</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: 24px; padding: 16px 20px; background: var(--cream); border-radius: 10px; font-size: 13px; color: var(--body); line-height: 1.6; border-left: 3px solid var(--gold);">
+      <strong style="color: var(--forest);">Relevant reading:</strong> <a href="/blog/how-to-find-a-therapist-in-barrie" style="color: var(--sage); text-decoration: none; font-weight: 500;">How to Find the Right Therapist in Barrie — A Complete Guide →</a>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 7: LOCATIONS ══ -->
+  <div class="section section-forest">
+    <div class="wf-label" style="background: rgba(201,169,110,0.25); color: var(--gold-light);">Section 7 — Locations (NAP + local SEO)</div>
+    <p class="section-eyebrow" style="color: var(--gold-light);">Where to find us</p>
+    <h2 class="section-title section-title-light">In-person in Barrie & Orillia. Virtual across Ontario.</h2>
+    <p class="section-body section-body-light">Our Barrie clinic is located at Unit 201, 151 Essa Road — accessible, private, and designed to feel like a place you actually want to be. We also see clients in Orillia, and offer video sessions to anyone across Ontario who prefers to connect from home.</p>
+
+    <div class="locations-grid">
+      <div class="location-card">
+        <div class="location-name"><i class="ti ti-map-pin" aria-hidden="true"></i> Barrie Clinic</div>
+        <div class="location-addr">Unit 201 – 151 Essa Road<br>Barrie, Ontario L4N 1L9</div>
+        <div class="location-detail">In-person sessions · Accessible building<br>Ample parking · Serving Barrie & surrounding areas</div>
+      </div>
+      <div class="location-card">
+        <div class="location-name"><i class="ti ti-map-pin" aria-hidden="true"></i> Orillia & Virtual</div>
+        <div class="location-addr">14 Peter Street South<br>Orillia, Ontario L3V 5A9</div>
+        <div class="location-detail">In-person in Orillia · Video sessions available<br>Virtual therapy anywhere in Ontario</div>
+      </div>
+    </div>
+
+    <div class="nap-block">
+      <div class="nap-item"><div class="nap-label">Practice name</div><div class="nap-value">Reset Counselling & Psychotherapy</div></div>
+      <div class="nap-item"><div class="nap-label">Phone</div><div class="nap-value">(705) 300-0077</div></div>
+      <div class="nap-item"><div class="nap-label">Email</div><div class="nap-value">info@resetbarrie.ca</div></div>
+      <div class="nap-item"><div class="nap-label">Hours</div><div class="nap-value">Mon–Fri 8:30am–8:00pm</div></div>
+    </div>
+    <div class="schema-note" style="background: rgba(255,255,255,0.07); border-color: var(--sage-light); color: rgba(255,255,255,0.5); margin-top: 14px;">
+      <i class="ti ti-code" aria-hidden="true"></i> NAP block above feeds LocalBusiness + MedicalBusiness JSON-LD schema · geo coordinates to be added in implementation
+    </div>
+  </div>
+
+  <!-- ══ SECTION 8: FAQ ══ -->
+  <div class="section section-alt">
+    <div class="wf-label">Section 8 — FAQ (FAQPage schema · AI answer target)</div>
+    <p class="section-eyebrow">Frequently asked questions</p>
+    <h2 class="section-title">About therapists in Barrie — common questions.</h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q"><div class="faq-q-mark">Q</div>How much does a therapist cost in Barrie, Ontario?</div>
+        <div class="faq-a">Individual therapy sessions in Barrie typically range from $130 to $200 per session, depending on the therapist's designation and experience. At Reset, sessions are priced within this range. Many extended health benefit plans cover a portion — check your plan for coverage of registered psychotherapists (RP) or registered social workers (RSW).</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><div class="faq-q-mark">Q</div>Does insurance cover therapy sessions in Barrie?</div>
+        <div class="faq-a">Most extended health benefit plans in Ontario cover sessions with a Registered Psychotherapist (RP) or Registered Social Worker (RSW). Coverage amounts and annual limits vary by plan. Reset provides detailed receipts after each session, which you submit directly to your insurer for reimbursement. We do not offer direct billing.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><div class="faq-q-mark">Q</div>What is the difference between a psychologist and a psychotherapist in Ontario?</div>
+        <div class="faq-a">In Ontario, a psychologist holds a doctoral-level degree and is regulated by the College of Psychologists and Behaviour Analysts of Ontario (CPBAO). A Registered Psychotherapist (RP) is regulated by the CRPO and is trained in psychotherapy — they cannot administer psychological testing, but provide evidence-based talk therapy for a wide range of mental health concerns. Most therapy needs are well met by a Registered Psychotherapist.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><div class="faq-q-mark">Q</div>Do I need a referral to see a therapist in Barrie?</div>
+        <div class="faq-a">No referral is required to book with a therapist at Reset. You can book directly online through JaneApp, or contact us to be matched with a therapist. Some insurance plans may request a referral from a physician for reimbursement purposes — it's worth checking your specific policy first.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><div class="faq-q-mark">Q</div>Can I see a Barrie therapist virtually?</div>
+        <div class="faq-a">Yes. All of our therapists offer virtual sessions via secure video. Virtual therapy is available to clients anywhere in Ontario — you don't have to be in Barrie. Many clients choose to start virtually and transition to in-person once they've established a relationship with their therapist.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><div class="faq-q-mark">Q</div>Are the therapists at Reset Barrie accepting new clients?</div>
+        <div class="faq-a">Yes — Reset is currently welcoming new clients. Because we have a team of 11 therapists with varied availability, we can usually find a suitable therapist and appointment time within a short wait. Book online or contact us to find out who has current availability.</div>
+      </div>
+      <div class="faq-item" style="border-bottom: none;">
+        <div class="faq-q"><div class="faq-q-mark">Q</div>How long will I need to be in therapy?</div>
+        <div class="faq-a">The length of therapy depends on your goals, what you're working through, and how often you attend. Some clients feel ready after 6–12 sessions; others prefer longer-term support. Your therapist will check in with you regularly to make sure your sessions are working. There's no fixed endpoint — therapy is as long or short as it needs to be.</div>
+      </div>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+      <a href="/faqs-for-clients" style="font-size: 13px; font-weight: 600; color: var(--sage); text-decoration: none;">View all FAQs for clients <i class="ti ti-arrow-right" style="font-size: 12px;" aria-hidden="true"></i></a>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 9: TESTIMONIALS ══ -->
+  <div class="section">
+    <div class="wf-label">Section 9 — Social proof (Review schema)</div>
+    <p class="section-eyebrow">What clients say</p>
+    <h2 class="section-title">Real experiences from people who've been where you are.</h2>
+
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Finding a therapist felt impossible until I found Reset. The matching process took the pressure off. My therapist has been incredible — I finally feel like someone actually gets it."</div>
+        <div class="review-attr">— Barrie client, individual counselling</div>
+        <div class="review-platform">Google Review · 5 stars</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"We came to Reset on the verge of calling it quits. The couples therapy we've done here has changed how we communicate. It's the best investment we've made in our relationship."</div>
+        <div class="review-attr">— Barrie couple, couples therapy</div>
+        <div class="review-platform">Google Review · 5 stars</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"I was nervous to try therapy. My therapist made me feel safe from the first session. I've been going for four months and I honestly can't imagine not going anymore."</div>
+        <div class="review-attr">— Ontario client, virtual sessions</div>
+        <div class="review-platform">Google Review · 5 stars</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"My daughter struggled for two years before we found someone who really understood teen anxiety. Leah at Reset has been transformative for her. I'm so grateful."</div>
+        <div class="review-attr">— Parent of adolescent client, Barrie</div>
+        <div class="review-platform">Google Review · 5 stars</div>
+      </div>
+    </div>
+    <div class="schema-note">
+      <i class="ti ti-code" aria-hidden="true"></i> Review schema (AggregateRating) to be implemented in JSON-LD — aggregate score pulled from Google Business Profile
+    </div>
+  </div>
+
+  <!-- ══ SECTION 10: CLOSING CTA ══ -->
+  <div class="cta-section">
+    <div class="wf-label" style="background: var(--forest); color: var(--gold);">Section 10 — Closing CTA</div>
+    <h2 class="cta-title">Ready to find your therapist in Barrie?</h2>
+    <p class="cta-body">Our team is welcoming new clients. Whether you want to book directly, ask a question first, or take the match quiz, the first step is yours to take — whenever you feel ready.</p>
+    <div class="cta-buttons">
+      <button class="cta-btn-primary">Book online via JaneApp</button>
+      <button class="cta-btn-secondary">Contact us first</button>
+    </div>
+    <p class="cta-reassurance">No referral needed · In-person in Barrie & Orillia · Virtual across Ontario</p>
+  </div>
+
+  <!-- SAFE MESSAGING FOOTER -->
+  <div class="safe-footer">
+    <strong>If you need immediate support:</strong> Crisis Services Canada <strong>1-833-456-4566</strong> (24/7) · Text <strong>HOME</strong> to <strong>686868</strong> · Or visit your nearest emergency department. Reset provides ongoing therapy, not crisis intervention.
+  </div>
+
+</div>
