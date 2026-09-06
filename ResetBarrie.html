@@ -294,12 +294,17 @@ function render(rows){
     const mom = (k.prev!==null && k.current!==null) ? (k.prev - k.current) : null;
     const total = (k.start!==null && k.current!==null) ? (k.start - k.current) : null;
     const isNewlyRanked = k.prev === null && k.current !== null;
-    const currentClass = isNewlyRanked ? 'pos-good' : posClass(k.current);
+    let currentClass;
+    if(k.current === null) currentClass = 'pos-none';
+    else if(isNewlyRanked) currentClass = 'pos-good';
+    else if(k.current < k.prev) currentClass = 'pos-good';
+    else if(k.current > k.prev) currentClass = 'pos-bad';
+    else currentClass = 'pos-mid';
     tr.innerHTML = `
       <td class="kw-main">${k.keyword}</td>
       <td>${fmt(k.canadaVol)}</td>
       <td><span class="pos-badge ${posClass(k.start)}">${fmt(k.start)}</span></td>
-      <td><span class="pos-badge ${posClass(k.prev)}">${fmt(k.prev)}</span></td>
+      <td><span class="pos-badge pos-mid">${fmt(k.prev)}</span></td>
       <td><span class="pos-badge ${currentClass}">${fmt(k.current)}</span></td>
       <td>${changeCell(mom)}</td>
       <td>${changeCell(total)}</td>
