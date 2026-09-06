@@ -292,7 +292,7 @@ function render(rows){
     const tr = document.createElement('tr');
     tr.dataset.kw = k.keyword.toLowerCase();
     const mom = (k.prev!==null && k.current!==null) ? (k.prev - k.current) : null;
-    const total = (k.start!==null && k.current!==null) ? (k.start - k.current) : null;
+    const total = k.totalDiff;
     const isNewlyRanked = k.prev === null && k.current !== null;
     let currentClass;
     if(k.current === null) currentClass = 'pos-none';
