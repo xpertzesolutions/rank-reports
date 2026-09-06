@@ -78,7 +78,7 @@
     <div>
       <div class="brand-eyebrow">SEO Performance · Live Dashboard </div>
       <h1 class="brand-title display">Ranking Report Dashboard</h1>
-      <div class="brand-sub">Crestcom Canada</div>
+      <div class="brand-sub">Crestcom Canada </div>
     </div>
     <div class="prepared-by">
       <img src="https://www.xpertzesolutions.com/wp-content/uploads/brizy/imgs/Xpertz-eSolutions-Logo-Wh-220x53x0x3x220x47x1755648802.png" alt="Xpertz eSolutions">
@@ -100,7 +100,7 @@
 </div>
 
 <footer>
-  <div class="owner-line">Crestcom Canada</div>
+  <div class="owner-line">Crestcom Canada </div>
   Internal SEO Reporting · crestcom.ca <br>
 </footer>
 
@@ -131,6 +131,16 @@ function parseCSV(text){
   return rows.filter(r => r.length>1 || r[0] !== '');
 }
 
+// Google's CSV export pads every row out to the sheet's full used range —
+// including blank formatted columns far past where the real data ends —
+// so raw row.length is NOT a reliable measure of "where the table ends".
+// Trim trailing empty cells to find the row's true, meaningful width.
+function trimTrailingEmpty(row){
+  let end = row.length;
+  while(end > 0 && (row[end-1] || '').trim() === '') end--;
+  return row.slice(0, end);
+}
+
 function posClass(v){
   if(v === null || isNaN(v)) return 'pos-none';
   if(v <= 10) return 'pos-good';
@@ -152,7 +162,8 @@ async function loadData(){
   document.getElementById('statusMsg').textContent = 'Fetching latest data…';
   document.getElementById('statusMsg').className = 'status';
   try{
-    const res = await fetch(CSV_URL, {cache:'no-store'});
+    const bustedUrl = CSV_URL + '&_=' + Date.now();
+    const res = await fetch(bustedUrl, {cache:'no-store'});
     if(!res.ok) throw new Error('HTTP '+res.status);
     const text = await res.text();
     const rows = parseCSV(text);
@@ -178,22 +189,42 @@ function render(rows){
   const headerRow  = rows.find(r => (r[1]||'').trim().toLowerCase() === 'keyword');
   const headerIdx  = headerRow ? rows.indexOf(headerRow) : -1;
   const dateRow    = headerIdx > 0 ? rows[headerIdx - 1] : [];
+  const kwRowsRaw  = headerIdx > -1 ? rows.slice(headerIdx + 1).filter(r => r[1] && r[1].trim() !== '') : [];
 
-  const toBucket = (r) => r ? { start: num(r[4]), prev: num(r[5]), current: num(r[6]) } : { start:null, prev:null, current:null };
+  // Column positions are anchored to the END of the row, since a new month
+  // column gets appended before "Difference" every month:
+  //   ... | Baseline | ... | Previous Month | Current Month | Difference
+  // Baseline always stays at a fixed position (right after the volume
+  // columns); Previous/Current/Difference are always the 3rd-last,
+  // 2nd-last and last columns respectively.
+  //
+  // The table's true width is measured from a KEYWORD data row rather
+  // than the date/bucket label rows — the live Google export collapses
+  // merged label cells (e.g. "Difference", "Dropped") to blank in some
+  // rows, which would otherwise make the table look one column too
+  // narrow. Keyword rows always have a real number in every column.
+  const colCount   = kwRowsRaw.reduce((m,r) => Math.max(m, trimTrailingEmpty(r).length), 0)
+                      || trimTrailingEmpty(dateRow).length
+                      || trimTrailingEmpty(headerRow || []).length;
+  const BASELINE_IDX = 4;
+  const diffIdx    = colCount - 1;
+  const currentIdx = colCount - 2;
+  const prevIdx    = colCount - 3;
+
+  const toBucket = (r) => r ? { start: num(r[BASELINE_IDX]), prev: num(r[prevIdx]), current: num(r[currentIdx]) } : { start:null, prev:null, current:null };
   const buckets = [ toBucket(top100Row), toBucket(top10Row), toBucket(b1150Row), toBucket(b51100Row) ];
 
-  const startLabel   = (dateRow[4] && dateRow[4].trim()) || 'Baseline';
-  const prevLabel     = (dateRow[5] && dateRow[5].trim()) || 'Previous';
-  const currentLabel  = (dateRow[6] && dateRow[6].trim()) || 'Current';
+  const startLabel   = (dateRow[BASELINE_IDX] && dateRow[BASELINE_IDX].trim()) || 'Baseline';
+  const prevLabel     = (dateRow[prevIdx] && dateRow[prevIdx].trim()) || 'Previous';
+  const currentLabel  = (dateRow[currentIdx] && dateRow[currentIdx].trim()) || 'Current';
 
-  const kwRows = headerIdx > -1 ? rows.slice(headerIdx + 1).filter(r => r[1] && r[1].trim() !== '') : [];
-  const keywords = kwRows.map(r => ({
+  const keywords = kwRowsRaw.map(r => ({
     keyword: r[1],
     canadaVol: num(r[2]),
-    start: num(r[4]),
-    prev: num(r[5]),
-    current: num(r[6]),
-    totalDiff: num(r[7])
+    start: num(r[BASELINE_IDX]),
+    prev: num(r[prevIdx]),
+    current: num(r[currentIdx]),
+    totalDiff: num(r[diffIdx])
   }));
 
   // Count movement directly from keyword-level MoM deltas (most reliable source)
@@ -262,12 +293,14 @@ function render(rows){
     tr.dataset.kw = k.keyword.toLowerCase();
     const mom = (k.prev!==null && k.current!==null) ? (k.prev - k.current) : null;
     const total = (k.start!==null && k.current!==null) ? (k.start - k.current) : null;
+    const isNewlyRanked = k.prev === null && k.current !== null;
+    const currentClass = isNewlyRanked ? 'pos-good' : posClass(k.current);
     tr.innerHTML = `
       <td class="kw-main">${k.keyword}</td>
       <td>${fmt(k.canadaVol)}</td>
       <td><span class="pos-badge ${posClass(k.start)}">${fmt(k.start)}</span></td>
       <td><span class="pos-badge ${posClass(k.prev)}">${fmt(k.prev)}</span></td>
-      <td><span class="pos-badge ${posClass(k.current)}">${fmt(k.current)}</span></td>
+      <td><span class="pos-badge ${currentClass}">${fmt(k.current)}</span></td>
       <td>${changeCell(mom)}</td>
       <td>${changeCell(total)}</td>
     `;
